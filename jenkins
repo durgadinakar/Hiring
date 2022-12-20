@@ -1,20 +1,19 @@
 pipeline {
     agent any
-
-    stages {
-        stage('Git-cred') {
-            steps {
-                git branch: 'main', credentialsId: 'Key ', url: 'https://github.com/durgadinakar/Hiring'
-            }
-        }
     
-      
+    
         stage('Mavan') {
+            when {
+               branch 'develop'
+            }
             steps {
                  sh 'mvn clean package'
             }
         }
         stage('Tomcat') {
+            when {
+               branch 'develop'
+            }
             steps {
                 sshagent(['Tomcat-cred(maven pem)']) 
                   {
