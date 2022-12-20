@@ -1,29 +1,23 @@
 pipeline {
     agent any
+    stages{
+    stage('Mavan') {
+            when {
+               branch 'develop'
+            }
+            steps {
+                 echo "Deploy to Dev"
+            }
+        }
+        stage('Tomcat-Depl-prod') {
+            when {
+               branch 'main'
+            }
+            steps {
+                 echo "Deploy to prod"
+            }
+        }
+    }  
+  }
 
-    stages {
-        stage('Git-cred') {
-            steps {
-                git branch: 'main', credentialsId: 'Key ', url: 'https://github.com/durgadinakar/Hiring'
-            }
-        }
-    
-      
-        stage('Mavan') {
-            steps {
-                 sh 'mvn clean package'
-            }
-        }
-        stage('Tomcat') {
-            steps {
-                sshagent(['Tomcat-cred(maven pem)']) 
-                  {
-                     sh "scp -o StrictHostKeyChecking=no target/*.war ec2-user@172.31.15.201:/opt/tomcat9/webapps"
-                     sh "ssh ec2-user@172.31.15.201 /opt/tomcat9/bin/shutdown.sh"
-                      sh "ssh ec2-user@172.31.15.201 /opt/tomcat9/bin/startup.sh"
-                  }
-            }
-        }
-    }
-}    
     
