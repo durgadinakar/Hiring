@@ -1,8 +1,7 @@
 pipeline {
     agent any
-    
-    
-        stage('Mavan') {
+    stages{
+    stage('Mavan') {
             when {
                branch 'develop'
             }
@@ -23,6 +22,7 @@ pipeline {
                   }
             }
         }
-    }
+    }  
+  }
 
     
