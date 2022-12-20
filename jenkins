@@ -6,20 +6,15 @@ pipeline {
                branch 'develop'
             }
             steps {
-                 sh 'mvn clean package'
+                 echo "Deploy to Dev"
             }
         }
-        stage('Tomcat') {
+        stage('Tomcat-Depl-prod') {
             when {
-               branch 'develop'
+               branch 'main'
             }
             steps {
-                sshagent(['Tomcat-cred(maven pem)']) 
-                  {
-                     sh "scp -o StrictHostKeyChecking=no target/*.war ec2-user@172.31.15.201:/opt/tomcat9/webapps"
-                     sh "ssh ec2-user@172.31.15.201 /opt/tomcat9/bin/shutdown.sh"
-                      sh "ssh ec2-user@172.31.15.201 /opt/tomcat9/bin/startup.sh"
-                  }
+                 echo "Deploy to prod"
             }
         }
     }  
