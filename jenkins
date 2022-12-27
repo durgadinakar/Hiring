@@ -8,7 +8,7 @@ pipeline {
         }
         stage('Docker Build') {    
             steps {
-                 sh "docker build -t gmtjdk/hiring:0.0.3 ."
+                 sh "docker build -t gmtjdk/hiring:0.0.4 ."
             }
         }
         stage('Docker push'){
@@ -16,14 +16,14 @@ pipeline {
                        withCredentials([string(credentialsId: 'Docker-hub', variable: 'hubpwd')]) 
                        {
                         sh "docker login -u gmtjdk -p ${hubpwd}"
-                        sh "docker push gmtjdk/hiring:0.0.3"
+                        sh "docker push gmtjdk/hiring:0.0.4"
                        }
                     }
               }
           stage('Docker Deploy'){
                   steps{
                     sshagent(['Docker-host']) {
-                           sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.39.73 docker run -d -p 8080:8080 --name hiring gmtjdk/hiring:0.0.3 "
+                           sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.39.73 docker run -d -p 8081:8080 --name hiring2 gmtjdk/hiring:0.0.3 "
                     }
                   }
           }    
