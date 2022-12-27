@@ -12,8 +12,10 @@ pipeline {
             }
         }
         stage('Docker push'){
-               sh "docker login -u gmtjdk -p xxxxxxxxx"
-               sh "docker push gmtjdk/hiring:0.0.3"
+               steps {
+                     sh "docker login -u gmtjdk -p xxxxxxxxx"
+                     sh "docker push gmtjdk/hiring:0.0.3"
+               }
         }
     }  
   }
