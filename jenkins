@@ -1,21 +1,19 @@
 pipeline {
     agent any
     stages{
-    stage('Mavan') {
-            when {
-               branch 'develop'
-            }
+      stage('Mavan') {
             steps {
-                 echo "Deploy to Dev"
+                 sh "mvn clean package"
             }
         }
-        stage('Tomcat-Depl-prod') {
-            when {
-               branch 'main'
-            }
+        stage('Docker Build') {    
             steps {
-                 echo "Deploy to prod"
+                 sh "docker built -t gmtjdk/hiring:0.0.3 ."
             }
+        }
+        stage('Docker push'){
+               sh "docker login -u gmtjdk -p xxxxxxxxx"
+               sh "docker push gmtjdk/hiring:0.0.3"
         }
     }  
   }
