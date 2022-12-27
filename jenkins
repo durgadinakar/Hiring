@@ -8,7 +8,7 @@ pipeline {
         }
         stage('Docker Build') {    
             steps {
-                 sh "docker built -t gmtjdk/hiring:0.0.3 ."
+                 sh "docker build -t gmtjdk/hiring:0.0.3 ."
             }
         }
         stage('Docker push'){
